@@ -142,7 +142,7 @@ class AppConst {
   static const String keyCurrentAccountDriver = "key_current_account_driver";
   static const String keyRouteBusNumber = "key_current_route_bus";
   static const String keyCarNo = "key_current_car_No";
-  // static const String keyFieldSetting = 'key_field_setting';
+
 
   //show case hive
   static const String keyShowCaseInvoicesPattern =

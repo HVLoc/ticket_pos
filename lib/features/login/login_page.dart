@@ -1,12 +1,10 @@
 import 'package:easy_invoice_qlhd/application/app.dart';
 import 'package:easy_invoice_qlhd/base/base_widget.dart';
 import 'package:easy_invoice_qlhd/const/all_const.dart';
-import 'package:easy_invoice_qlhd/features/search_invoice/search_invoice_controller.dart';
 import 'package:easy_invoice_qlhd/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import 'login.dart';
 import 'login_controller.dart';
@@ -15,6 +13,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
   final FocusNode _taxCodeFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _codeFocus = FocusNode();
 
   @override
   LoginController get controller => Get.put(LoginController());
@@ -66,10 +65,11 @@ class LoginPage extends BaseGetWidget<LoginController> {
                     controller.haveAccount.value
                         ? _buildUserInfor()
                         : _buildUserInput(),
+                    _buildInputPassword(),
                     const SizedBox(
                       height: 3,
                     ),
-                    _buildInputPassword(),
+                    _buildCode(),
                     const SizedBox(
                       height: 20,
                     ),
@@ -91,30 +91,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
               ),
               BaseWidget.sizedBox10,
               const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildIconLogin(
-                    AppStr.supportive.tr,
-                    () async {
-                      if (!controller.isShowLoading.value) {
-                        if (await canLaunchUrlString(
-                            AppStr.telSupportNumber.tr)) {
-                          await launchUrlString(AppStr.telSupportNumber.tr);
-                        }
-                      }
-                    },
-                    Icons.headset_mic,
-                    AppColors.chipColor,
-                  ),
-                  _buildIconLogin(
-                      AppStr.search,
-                      () => Get.find<SearchInvoiceController>()
-                          .navToSearchInvoicePage(),
-                      Icons.search,
-                      AppColors.chipColor),
-                ],
-              ).paddingOnly(bottom: AppDimens.defaultPadding),
+
               // _buildFooter(),
             ],
           ),
@@ -195,7 +172,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
 
   Widget _buildInputEmail() {
     return BuildInputTextWithLabel(
-      label: AppStr.account.tr,
+      label: "Tên công ty",
       textStyle: Get.textTheme.bodyText2!.copyWith(
         color: Colors.white,
       ),
@@ -207,7 +184,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
           fillColor: Colors.white38,
           prefixIconColor: AppColors.prefixIconLogin,
           iconLeading: Icons.person,
-          hintText: AppStr.account.tr,
+          hintText: "Tên công ty",
           controller: controller.userNameController,
           isReadOnly: controller.isShowLoading.value,
           currentNode: _emailFocus,
@@ -226,7 +203,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
 
   Widget _buildInputPassword() {
     return BuildInputTextWithLabel(
-      label: AppStr.password.tr,
+      label: AppStr.address.tr,
       textStyle: Get.textTheme.bodyText2!.copyWith(
         color: Colors.white,
       ),
@@ -239,13 +216,12 @@ class LoginPage extends BaseGetWidget<LoginController> {
           prefixIconColor: AppColors.prefixIconLogin,
           fillColor: Colors.white38,
           iconLeading: Icons.vpn_key,
-          hintText: AppStr.password.tr,
-          controller: controller.passwordController,
+          hintText: 'Địa chỉ',
+          controller: controller.addressController,
           currentNode: _passwordFocus,
-          iconNextTextInputAction: TextInputAction.done,
+          nextNode: _codeFocus,
           isReadOnly: controller.isShowLoading.value,
           obscureText: true,
-          submitFunc: (v) => controller.funcCheckTaxCode(),
           validator: (value) {
             if (value != null && (value.length < 8 || value.length > 50)) {
               return AppStr.errorPassword.tr;
@@ -270,21 +246,53 @@ class LoginPage extends BaseGetWidget<LoginController> {
     );
   }
 
-  Widget _buildIconLogin(
-    String title,
-    Function func,
-    IconData icon,
-    Color iconColor,
-  ) {
-    return BaseWidget.buildButtonIcon(
-        colors: Colors.white,
-        padding: 10,
-        sizeIcon: 25,
-        radius: 60,
-        icons: icon,
-        iconColor: iconColor,
-        func: func,
-        title: title,
-        textColor: Colors.white);
+  Widget _buildCode() {
+    return BuildInputTextWithLabel(
+      label: 'Nhập mã code',
+      textStyle: Get.textTheme.bodyText2!.copyWith(
+        color: Colors.white,
+      ),
+      buildInputText: BuildInputText(
+        InputTextModel(
+          suffixColor: Colors.white,
+          hintTextColor: AppColors.hintTextSolidColor,
+          textColor: Colors.white,
+          errorTextColor: AppColors.errorTextLogin,
+          prefixIconColor: AppColors.prefixIconLogin,
+          fillColor: Colors.white38,
+          iconLeading: Icons.vpn_key,
+          hintText: 'Nhập mã code',
+          controller: controller.codeController,
+          currentNode: _codeFocus,
+          iconNextTextInputAction: TextInputAction.done,
+          isReadOnly: controller.isShowLoading.value,
+          submitFunc: (v) => controller.funcCheckTaxCode(),
+          validator: (value) {
+            if (value != null && (value.length < 8 || value.length > 50)) {
+              return AppStr.error.tr;
+            }
+            return null;
+          },
+        ),
+      ),
+    );
   }
+
+  // Widget _buildIconLogin(
+  //   String title,
+  //   Function func,
+  //   IconData icon,
+  //   Color iconColor,
+  // ) {
+  //   return BaseWidget.buildButtonIcon(
+  //       colors: Colors.white,
+  //       padding: 10,
+  //       sizeIcon: 25,
+  //       radius: 60,
+  //       icons: icon,
+  //       iconColor: iconColor,
+  //       func: func,
+  //       title: title,
+  //       textColor: Colors.white);
+  // }
 }
