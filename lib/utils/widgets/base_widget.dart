@@ -180,20 +180,6 @@ class BaseWidget {
     );
   }
 
-  static Widget buildGradientText(Text textWidget,
-      {LinearGradient linearGradient = const LinearGradient(
-          colors: AppColors.colorGradientBlue,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight)}) {
-    // gradient chỉ hiển thị khi text màu trắng
-    textWidget.style?.copyWith(color: Colors.white);
-    return ShaderMask(
-        shaderCallback: (bounds) => linearGradient.createShader(
-              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-            ),
-        child: textWidget);
-  }
-
   static Widget buildSmartRefresherCustomFooter() {
     return CustomFooter(
       builder: (context, mode) {

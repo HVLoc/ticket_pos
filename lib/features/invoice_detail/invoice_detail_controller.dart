@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:easy_invoice_qlhd/application/app_controller.dart';
 import 'package:easy_invoice_qlhd/base/base.dart';
-import 'package:easy_invoice_qlhd/features/extra/extra_respone.dart';
 import 'package:easy_invoice_qlhd/features/home/home_controller.dart';
 import 'package:easy_invoice_qlhd/features/invoice/invoice.dart';
 import 'package:easy_invoice_qlhd/utils/utils.dart';
@@ -17,7 +16,6 @@ class InvoiceDetailController extends BaseGetxController {
       Rx<InvoiceDetailModel>(InvoiceDetailModel());
 
   InvoicesController invoicesController = Get.find<InvoicesController>();
-  List<ExtraInfo> listExtra = [];
 
   /// Controller của NestscrollView.
   late ScrollController scrollController;

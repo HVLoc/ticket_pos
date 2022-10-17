@@ -13,7 +13,6 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import '../features/home/home_controller.dart';
 import '../features/setup_realm/model/introduction_setting_model.dart';
 import '../hive_local/shift.dart';
-import '../service/service.dart';
 
 late Box HIVE_APP;
 late Box<InvoiceDetailModel> HIVE_INVOICE;
@@ -38,8 +37,6 @@ class AppController extends GetxController {
   @override
   void onInit() {
     initHive().then((value) {
-      initServices();
-
       Get.put(BaseRequest(), permanent: true);
 
       Get.put(BaseGetxController(), permanent: true);
@@ -116,17 +113,33 @@ Future<void> initHive() async {
   Hive.registerAdapter(ShiftModelAdapter());
   Hive.registerAdapter(SettingAdapter());
   Hive.registerAdapter(SetupModelAdapter());
+
   HIVE_APP = await Hive.openBox(
-    AppStr.appName + AppStr.companyTaxCode,
+    AppStr.appName,
   );
   HIVE_INVOICE = await Hive.openBox(
-    'InvoiceDetailModelAdapter' + AppStr.companyTaxCode,
+    'InvoiceDetailModelAdapter',
   );
   HIVE_PRODUCT = await Hive.openBox(
-    'ProductItemAdapter' + AppStr.companyTaxCode,
+    'ProductItemAdapter',
   );
   HIVE_ACCOUNT = await Hive.openBox(
-    'AccountModelAdapter' + AppStr.companyTaxCode,
+    'AccountModelAdapter',
+  );
+  HIVE_SHIFT = await Hive.openBox(
+    'ShiftModelAdapter',
+  );
+  HIVE_SETUP = await Hive.openBox(
+    'SetUp',
+  );
+  HIVE_SETTING = await Hive.openBox(
+    'Setting',
+  );
+  HIVE_ACCOUNT_DRIVER = await Hive.openBox(
+    'HIVE_ACCOUNT_DRIVER',
+  );
+  HIVE_LICENSE_PLATES = await Hive.openBox(
+    'HIVE_LICENSE_PLATES',
   );
 
   packageInfo = await PackageInfo.fromPlatform();

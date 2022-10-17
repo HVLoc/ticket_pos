@@ -61,7 +61,7 @@ class ProfilePage extends BaseGetWidget<ProfileController> {
                       //   loginController: loginController,
                       // ).paddingSymmetric(vertical: AppDimens.paddingMedium),
                       Text(
-                        '${AppStr.companyName}\n${AppStr.companyTaxCode}',
+                        '${HIVE_APP.get(AppConst.keyComName)}\n${HIVE_APP.get(AppConst.keyTaxCodeCompany)}',
                         style: Get.textTheme.headline6!
                             .copyWith(color: AppColors.textColor()),
                         textAlign: TextAlign.center,

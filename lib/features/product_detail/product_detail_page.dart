@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_invoice_qlhd/base/base_widget.dart';
 import 'package:easy_invoice_qlhd/const/all_const.dart';
-import 'package:easy_invoice_qlhd/features/extra/extra_respone.dart';
 import 'package:easy_invoice_qlhd/features/product_detail/product_detail_controller.dart';
 import 'package:easy_invoice_qlhd/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +39,7 @@ class ProductDetailPage extends BaseGetWidget<ProductDetailController> {
         //   ),
         // ],
         title: BaseWidget.buildAppBarTitle(
-          controller.titleAppBar(),
+          tag,
         ),
       ),
       body: Column(
@@ -78,10 +77,7 @@ class ProductDetailPage extends BaseGetWidget<ProductDetailController> {
                           title: AppStr.productCode.tr,
                           textEditingController: controller.codeController,
                           controller: controller,
-                          enable: controller.productArg.type != 1,
-                          textInputAction: controller.isCreateOrDuplicate()
-                              ? TextInputAction.next
-                              : TextInputAction.done,
+                          textInputAction: TextInputAction.next,
                           isProductCode: true,
                         ),
                         const Divider(
@@ -97,9 +93,7 @@ class ProductDetailPage extends BaseGetWidget<ProductDetailController> {
                     controller: controller,
                     maxLength: 800,
                     isValidate: true,
-                    textInputAction: controller.isCreateOrDuplicate()
-                        ? TextInputAction.next
-                        : TextInputAction.done,
+                    textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(
                     height: AppDimens.paddingVerySmall,
@@ -112,9 +106,6 @@ class ProductDetailPage extends BaseGetWidget<ProductDetailController> {
                 BaseWidget.sizedBox10,
                 _buildMoney(controller),
                 BaseWidget.sizedBox10,
-                if (controller.isProductDetailView() &&
-                    !controller.isDiscount())
-                  _buildSpinBox(controller),
               ],
             ),
             Obx(
@@ -131,13 +122,7 @@ class ProductDetailPage extends BaseGetWidget<ProductDetailController> {
                 ),
               ),
             ),
-            // BaseWidget.sizedBox10,
-            // controller.listProdExtraCurrent.isNotEmpty
-            //     ? buildProExtra(controller, controller.listProdExtraCurrent)
-            //     : Container(),
             BaseWidget.sizedBox10,
-            if (controller.isProductDetailView())
-              _buildSale(controller).paddingOnly(bottom: 10),
           ],
         ).paddingAll(AppDimens.paddingSmall),
       ),

@@ -135,12 +135,6 @@ class AppStr {
   static const String zaloSupport = "Hỗ trợ HĐĐT";
   static const String buyerDefault = "Khách lẻ";
 
-  //company
-  static const String companyName = "CÔNG TY TNHH ĐOÀN THÚY NGHI SƠN";
-  static const String companyTaxCode = "2802415041";
-  static const String companyAddress =
-      "Tổ dân phố Tiền Phong, Phường Hải Bình,\nThị xã Nghi Sơn, Tỉnh Thanh Hoá, Việt Nam";
-
   static const String ticketReportPrint = "In báo cáo";
   static const String ticketReportDate = "Ngày báo cáo";
 
@@ -696,7 +690,8 @@ class AppStr {
   static const String ticketAddProduct = "Thêm sản phẩm";
   static const String ticketTitleList = "D.Sách vé";
   static const String ticketTitleListSort = "DS vé";
-  static const String ticketInfoProvider = 'NCC:SoftDreams - MST:0105687432\nCSKH: 0977873229';
+  static const String ticketInfoProvider =
+      'NCC:SoftDreams - MST:0105687432\nCSKH: 0977873229';
   // 'Quét QR để lấy hóa đơn điện tử\nCSKH: 0977873229';
   // static const String ticketInfoProvider =
   //     'Quét QR để lấy hóa đơn điện tử\nCSKH: 0977873229';
@@ -1261,7 +1256,7 @@ class AppStr {
   static const String keyNumberSeat = "{SoGhe}";
   static const String keyDeparture = "{BenDi}";
   static const String keyDestination = "{BenDen}";
-  
+
   static const Map<String, String> keySetting = {
     keyAmount: "Giá tiền sản phẩm",
     keyName: "Tên sản phẩm",

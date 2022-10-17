@@ -282,7 +282,7 @@ Widget _buildFilter(DashboardController controller) {
   ScrollController controllerFilter = ScrollController();
 
   // Chuyển tới trạng thái lọc hiện tại
-  WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     if (controllerFilter.hasClients)
       controllerFilter.animateTo(
         listTimeFilter()

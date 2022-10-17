@@ -77,3 +77,18 @@ String formatMessError(dynamic mess) {
     return AppStr.errorInternalServer;
   }
 }
+
+double vatValue(int? vatRate) =>
+    vatRate != null && vatRate != -1 ? vatRate / 100 : 0;
+
+String vatStr(int? vatRate) =>
+    AppStr.vatSpace +
+    AppStr.listVAT.entries
+        .firstWhere(
+            (element) => element.key == (vatRate ?? AppStr.listVAT.keys.first),
+            orElse: () => {
+                  1: vatRate.toString() + AppStr.percentSpace,
+                }.entries.first)
+        .value;
+
+

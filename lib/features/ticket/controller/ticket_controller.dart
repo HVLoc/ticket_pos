@@ -40,9 +40,9 @@ abstract class TicketController extends BaseGetxController {
 
   void addProduct();
 
-  void updateProduct(int index);
+  void updateProduct(String id);
 
-  void deleteProduct(int index);
+  void deleteProduct(String id);
 
   //hải phượng
   Future<void> printTicket(ProductItem item);

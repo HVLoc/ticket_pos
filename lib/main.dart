@@ -1,5 +1,4 @@
 import 'package:easy_invoice_qlhd/features/change_account/change_account.dart';
-import 'package:easy_invoice_qlhd/features/product/product.dart';
 import 'package:easy_invoice_qlhd/utils/translation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,20 +80,17 @@ class _ApplicationState extends State<Application> {
         ],
         supportedLocales: [const Locale('vi'), const Locale('en')],
         builder: (context, child) {
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.light,
-            child: ScrollConfiguration(
-              behavior: MyBehavior(),
-              child: child!,
-            ),
+          return ScrollConfiguration(
+            behavior: MyBehavior(),
+            child: child!,
           );
         },
         debugShowCheckedModeBanner: false,
         title: AppStr.appName.tr,
         getPages: route,
         theme: getThemeByAppTheme(false),
-        darkTheme: getThemeByAppTheme(),
-        themeMode: ThemeMode.light,
+        // darkTheme: getThemeByAppTheme(),
+        // themeMode: ThemeMode.light,
         logWriterCallback: localLogWriter,
         initialRoute: '/',
         // routes: routes,
@@ -124,10 +120,7 @@ class _ApplicationState extends State<Application> {
       name: AppConst.routeInvoiceCreation,
       page: () => InvoiceCreationPage(),
     ),
-    GetPage(
-      name: AppConst.routeProduct,
-      page: () => ProductPage(),
-    ),
+
     GetPage(
       name: AppConst.routeQrCode,
       page: () => QRInvoicePage(),

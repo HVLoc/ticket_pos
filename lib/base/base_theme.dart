@@ -58,7 +58,7 @@ ThemeData getThemeByAppTheme([bool isDarkMode = true]) {
       // button
       button: _textTheme.button!.copyWith(fontSize: 14, color: textColor),
     ).apply(
-      fontFamily: 'SanFranciscoDisplay',
+      fontFamily: 'RobotoMono',
     );
   }
 
@@ -98,8 +98,8 @@ ButtonThemeData _buildButtonTheme(ThemeData base) {
       textTheme: ButtonTextTheme.accent,
       colorScheme: base.colorScheme
           .copyWith(primary: Colors.white, secondary: Colors.white),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      shape: RoundedRectangleBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
       ));
 }
 
@@ -119,8 +119,8 @@ BottomAppBarTheme _buildBottomAppBarTheme(ThemeData base) {
 BottomSheetThemeData _buildBottomSheetTheme(ThemeData base) {
   return base.bottomSheetTheme.copyWith(
     backgroundColor: Colors.white,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+    shape: RoundedRectangleBorder(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
     ),
   );
 }

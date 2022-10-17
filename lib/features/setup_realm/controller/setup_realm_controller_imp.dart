@@ -57,7 +57,7 @@ class SetupRealmControllerImp extends SetupRealmController {
   void gotoHome() {
     appController.isLogin.value = true;
     HIVE_SETUP.put(idPage.value, listSetupModel.value);
-    Get.offAllNamed(AppConst.routeHome);
+    Get.offAllNamed(AppConst.routeChangeAccount);
   }
 
   @override
@@ -313,13 +313,14 @@ class SetupRealmControllerImp extends SetupRealmController {
     {
       list.addAll([
         Setting(
-          title: AppStr.companyName,
+          title: HIVE_APP.get(AppConst.keyComName),
           isBoldText: true,
           isToUpper: true,
         ),
-        Setting(title: AppStr.companyAddress, fontSize: 18),
+        Setting(title: HIVE_APP.get(AppConst.keyAddress), fontSize: 18),
         Setting(
-            title: '${AppStr.taxCode}: ${AppStr.companyTaxCode} ',
+            title:
+                '${AppStr.taxCode}: ${HIVE_APP.get(AppConst.keyTaxCodeCompany)} ',
             isBoldText: true,
             fontSize: 18),
       ]);

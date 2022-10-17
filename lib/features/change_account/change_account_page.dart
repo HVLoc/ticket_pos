@@ -71,7 +71,9 @@ class ChangeAccPage extends BaseGetWidget<ChangeAccController> {
                       _buildFilter(controller, AppStr.shift,
                           controller.mapShift, controller.idShift),
                     if (controller.idAccount != 0 &&
-                        (HIVE_SETUP.get(HIVE_APP.get(AppConst.keyIdPage) ?? 0)!.licensePlates))
+                        (HIVE_SETUP
+                            .get(HIVE_APP.get(AppConst.keyIdPage) ?? 0)!
+                            .licensePlates))
                       _buildFilter(
                         controller,
                         'Chọn biển số xe',
@@ -109,7 +111,7 @@ class ChangeAccPage extends BaseGetWidget<ChangeAccController> {
     return Column(
       children: [
         Text(
-          '${AppStr.companyName}\n${AppStr.companyTaxCode}',
+          '${HIVE_APP.get(AppConst.keyComName)}\n${HIVE_APP.get(AppConst.keyTaxCodeCompany)}',
           style: Get.textTheme.headline6!.copyWith(color: Colors.white),
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,

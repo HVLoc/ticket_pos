@@ -198,7 +198,7 @@ class ProductItemAdapter extends TypeAdapter<ProductItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductItem(
-      id: fields[0] as int?,
+      id: fields[0] as String?,
       invId: fields[1] as int?,
       name: fields[2] as String?,
       price: fields[3] as double?,

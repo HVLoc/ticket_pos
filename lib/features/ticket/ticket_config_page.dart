@@ -104,79 +104,76 @@ class TicketConfigPage extends BaseGetWidget<TicketController> {
   Widget _buildItemAdmin(int index) {
     ProductItem item = HIVE_PRODUCT.getAt(index)!;
 
-    return Obx(
-      () => BaseWidget.buildCardBase(
-        InkWell(
-          onTap: () {
-            if (controller.appController.isAdmin.value) {
-              controller.updateProduct(index);
-            }
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              BaseWidget.sizedBox10,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AutoSizeText(
-                      item.name.toString(),
-                      style: Get.textTheme.bodyText1!.copyWith(fontSize: 16),
-                    ),
-                  ),
-                  BaseWidget.sizedBox10,
-                  TextButton(
-                    onPressed: () {
-                      controller.updateProduct(index);
-                    },
-                    child: AutoSizeText(
-                      AppStr.fix,
-                      style: Get.textTheme.bodyText1?.copyWith(
-                        color: AppColors.linkText(),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      controller.deleteProduct(index);
-                    },
-                    child: AutoSizeText(
-                      AppStr.delete,
-                      style: Get.textTheme.bodyText1?.copyWith(
-                        color: AppColors.linkText(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (item.unit.isStringNotEmpty)
-                AutoSizeText(
-                  AppStr.unit + (item.unit ?? ''),
-                  style: Get.theme.textTheme.subtitle2!.copyWith(
-                    fontSize: AppDimens.fontSmall(),
-                    color: AppColors.hintTextColor(),
+    return BaseWidget.buildCardBase(
+      InkWell(
+        onTap: () {
+          if (controller.appController.isAdmin.value) {
+            controller.updateProduct(item.id!);
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BaseWidget.sizedBox10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: AutoSizeText(
+                    item.name.toString(),
+                    style: Get.textTheme.bodyText1!.copyWith(fontSize: 16),
                   ),
                 ),
-              buildExtra(controller.homeController, item),
-              AutoSizeText(
-                AppStr.productPrice +
-                    CurrencyUtils.formatCurrencyForeign(
-                      convertDoubleToStringSmart(item.amount),
+                BaseWidget.sizedBox10,
+                TextButton(
+                  onPressed: () {
+                    controller.updateProduct(item.id!);
+                  },
+                  child: AutoSizeText(
+                    AppStr.fix,
+                    style: Get.textTheme.bodyText1?.copyWith(
+                      color: AppColors.linkText(),
                     ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    controller.deleteProduct(item.id!);
+                  },
+                  child: AutoSizeText(
+                    AppStr.delete,
+                    style: Get.textTheme.bodyText1?.copyWith(
+                      color: AppColors.linkText(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            if (item.unit.isStringNotEmpty)
+              AutoSizeText(
+                AppStr.unit + (item.unit ?? ''),
                 style: Get.theme.textTheme.subtitle2!.copyWith(
                   fontSize: AppDimens.fontSmall(),
                   color: AppColors.hintTextColor(),
                 ),
               ),
-              BaseWidget.sizedBox10,
-            ],
-          ).paddingSymmetric(
-            horizontal: AppDimens.paddingVerySmall,
-          ),
+            AutoSizeText(
+              AppStr.productPrice +
+                  CurrencyUtils.formatCurrencyForeign(
+                    convertDoubleToStringSmart(item.amount),
+                  ),
+              style: Get.theme.textTheme.subtitle2!.copyWith(
+                fontSize: AppDimens.fontSmall(),
+                color: AppColors.hintTextColor(),
+              ),
+            ),
+            BaseWidget.sizedBox10,
+          ],
+        ).paddingSymmetric(
+          horizontal: AppDimens.paddingVerySmall,
         ),
       ),
     );

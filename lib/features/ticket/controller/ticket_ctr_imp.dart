@@ -4,19 +4,15 @@ import 'package:easy_invoice_qlhd/application/app_controller.dart';
 import 'package:easy_invoice_qlhd/features/invoice_detail/model/invoice_detail_response.dart';
 import 'package:easy_invoice_qlhd/features/ticket/controller/ticket_controller.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:sunmi_printer_plus/enums.dart';
+
 import 'package:sunmi_printer_plus/sunmi_printer_plus.dart';
-import 'package:sunmi_printer_plus/sunmi_style.dart';
 
 import '../../../const/all_const.dart';
-import '../../../service/service.dart';
-import '../../../utils/utils.dart';
-import '../../invoice_creation/invoice_creation.dart';
-import '../../product/model/product_arg.dart';
-import '../../product_detail/product_detail.dart';
 
-part '../../extra/extra_print.dart';
+import '../../../service/issue_invoice.dart';
+import '../../../utils/utils.dart';
+
+import '../../product_detail/product_detail.dart';
 
 class TicketControllerImp extends TicketController {
   @override
@@ -48,12 +44,11 @@ class TicketControllerImp extends TicketController {
         if (i != 0) await Future.delayed(const Duration(seconds: 1));
         item.timeStart =
             '${_addLeadingZeroIfNeeded(timeOfDay.value.hour)} : ${_addLeadingZeroIfNeeded(timeOfDay.value.minute)}';
-        String ikey =
-            await getIkey(InvoiceArg(invoiceDetailModel: InvoiceDetailModel()));
-        String xml = await buildCreateXml(item, ikey);
-        _configPrinter(item, ikey);
+        addHiveInvoices(item);
 
-        checkConnectivity(() => callIssueInvoice(xml));
+        //TODO
+        // _configPrinter(item, ikey);
+
       }
 
       await SunmiPrinter.exitTransactionPrint(true); // Close the transaction
@@ -74,12 +69,8 @@ class TicketControllerImp extends TicketController {
   @override
   void addProduct() {
     Get.to(
-      () => ProductDetailPage(AppConst.createProduct),
-      arguments: ProductArg(
-        type: 2,
-        productItem:
-            ProductItem(price: 0.0, quantity: 0.0, vatRate: -1, extra: ""),
-      ),
+      () => ProductDetailPage(AppStr.addProduct),
+      arguments: ProductItem(price: 0.0, quantity: 0.0, vatRate: -1, extra: ""),
     )?.then((value) {
       if (value != null) {
         // products.add(value);
@@ -93,27 +84,24 @@ class TicketControllerImp extends TicketController {
   }
 
   @override
-  void deleteProduct(int index) {
+  void deleteProduct(String id) {
     ShowPopup.showDialogConfirm(
       AppStr.invoiceDetailRemoveContain,
-      confirm: () => HIVE_PRODUCT.deleteAt(index),
+      confirm: () => HIVE_PRODUCT.delete(id),
       actionTitle: AppStr.delete,
     );
   }
 
   @override
-  void updateProduct(int index) {
+  void updateProduct(String id) {
     Get.to(
-      () => ProductDetailPage(AppConst.editProduct),
-      arguments: ProductArg(
-        type: 1,
-        productItem: HIVE_PRODUCT.getAt(index)!,
-      ),
+      () => ProductDetailPage(AppStr.updateProduct),
+      arguments: HIVE_PRODUCT.get(id)!,
     )?.then((value) {
       if (value != null) {
         // products[index] = value;
         value.quantityLocal.value = 1.0;
-        HIVE_PRODUCT.put(HIVE_PRODUCT.getAt(index)!.id, value);
+        HIVE_PRODUCT.put(id, value);
       }
     });
   }

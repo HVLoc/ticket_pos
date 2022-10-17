@@ -65,7 +65,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
                     controller.haveAccount.value
                         ? _buildUserInfor()
                         : _buildUserInput(),
-                    _buildInputPassword(),
+                    _buildInputAddress(),
                     const SizedBox(
                       height: 3,
                     ),
@@ -201,7 +201,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
     );
   }
 
-  Widget _buildInputPassword() {
+  Widget _buildInputAddress() {
     return BuildInputTextWithLabel(
       label: AppStr.address.tr,
       textStyle: Get.textTheme.bodyText2!.copyWith(
@@ -221,7 +221,7 @@ class LoginPage extends BaseGetWidget<LoginController> {
           currentNode: _passwordFocus,
           nextNode: _codeFocus,
           isReadOnly: controller.isShowLoading.value,
-          obscureText: true,
+          // obscureText: true,
           validator: (value) {
             if (value != null && (value.length < 8 || value.length > 50)) {
               return AppStr.errorPassword.tr;
@@ -267,12 +267,6 @@ class LoginPage extends BaseGetWidget<LoginController> {
           iconNextTextInputAction: TextInputAction.done,
           isReadOnly: controller.isShowLoading.value,
           submitFunc: (v) => controller.funcCheckTaxCode(),
-          validator: (value) {
-            if (value != null && (value.length < 8 || value.length > 50)) {
-              return AppStr.error.tr;
-            }
-            return null;
-          },
         ),
       ),
     );

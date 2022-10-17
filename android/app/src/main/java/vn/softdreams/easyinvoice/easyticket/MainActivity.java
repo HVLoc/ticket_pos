@@ -1,4 +1,4 @@
-package vn.softdreams.easyinvoice.easyticket;
+package vn.lochv.ticket.pos;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -372,7 +372,7 @@ class ProductItem {
   });
 
   @HiveField(0)
-  int? id;
+  String? id;
 
   @HiveField(1)
   int? invId;
@@ -445,7 +445,7 @@ class ProductItem {
   String? licensePlates;
 
   factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
-        id: json["id"]?.toInt() ?? json["Id"]?.toInt(),
+        id: json["id"],
         invId: json["InvID"],
         name: json["ProdName"] ?? json["Name"],
         price: json["ProdPrice"] ?? json["Price"],

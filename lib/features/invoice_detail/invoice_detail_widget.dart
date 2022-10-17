@@ -80,7 +80,7 @@ Widget _buildItem(
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(4))),
                                     child: Text(
-                                      vatStr(item),
+                                      vatStr(item.vatRate),
                                       style: Get.theme.textTheme.subtitle2!
                                           .copyWith(
                                               fontSize: 10,
@@ -149,32 +149,6 @@ Widget _buildHeader(InvoiceDetailController controller) {
       BaseWidget.sizedBox10,
       _buildCustomer(controller),
       BaseWidget.sizedBox10,
-      // if (controller.invoiceDetailModel.value.paymentMethod.isStringNotEmpty)
-      //   Column(
-      //     children: [
-      //       _buildPaymentMethodView(controller),
-      //       BaseWidget.sizedBox10,
-      //     ],
-      //   ),
-      if (controller.invoiceDetailModel.value.items.first.extra
-          .toString()
-          .isNotEmpty) ...[
-        BaseWidget.buildCardBase(
-          buildExtra(controller.homeController,
-                  controller.invoiceDetailModel.value.items.first)
-              .paddingAll(AppDimens.paddingSmall),
-        ),
-        BaseWidget.sizedBox10,
-      ],
-
-      controller.listExtra.isNotEmpty
-          ? Column(
-              children: [
-                _buildInvoiceExtraInformation(controller),
-                BaseWidget.sizedBox10,
-              ],
-            )
-          : Container(),
       Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -195,60 +169,6 @@ Widget _buildHeader(InvoiceDetailController controller) {
       ),
     ],
   );
-}
-
-Widget _buildInvoiceExtraInformation(
-  InvoiceDetailController invoiceDetailController,
-) {
-  return BaseWidget.buildCardBase(Container(
-    width: Get.width,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(AppStr.invoiceExtra.toUpperCase()),
-        BaseWidget.sizedBox10,
-        buildInvExtraRespone(invoiceDetailController),
-      ],
-    ),
-  ).paddingAll(AppDimens.paddingSmall));
-}
-
-Widget buildInvExtraRespone(
-  InvoiceDetailController invoiceDetailController,
-) {
-  return ListView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    shrinkWrap: true,
-    itemCount: invoiceDetailController.listExtra.length,
-    itemBuilder: (BuildContext context, int index) =>
-        buildInvExtraResponeViewItem(
-      invoiceDetailController,
-      index,
-    ),
-  );
-}
-
-Widget buildInvExtraResponeViewItem(
-  InvoiceDetailController invoiceDetailController,
-  int index,
-) {
-  return Container(
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-        Text(
-          invoiceDetailController.listExtra[index].label + ': ',
-          style: Get.textTheme.bodyText2,
-        ),
-        Text(
-          invoiceDetailController
-                  .invoiceDetailModel.value.extra.isStringNotEmpty
-              ? invoiceDetailController.listInvExtraViewRespone()[index] ?? ''
-              : '',
-          style: Get.textTheme.bodyText1,
-        )
-      ]).paddingOnly(left: 2));
 }
 
 Widget _buildCustomer(InvoiceDetailController controller) {
@@ -443,7 +363,6 @@ Widget _rowCustomer(String title, String value,
     );
 
 Widget _buildFooter(InvoiceDetailController controller) {
-  bool notVAT = isSaleInv(controller.invoiceDetailModel.value.invoicePattern);
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     decoration: BoxDecoration(
@@ -460,56 +379,20 @@ Widget _buildFooter(InvoiceDetailController controller) {
         const SizedBox(
           height: 20,
         ),
-        Visibility(
-          visible: notVAT,
-          child: _rowCustomer(
-              AppStr.productDetailVAT.tr,
-              AppStr.listVAT.entries
-                  .firstWhere(
-                      (element) =>
-                          element.key ==
-                          (controller.invoiceDetailModel.value.vatRate ??
-                              AppStr.listVAT.keys.first),
-                      orElse: () => {
-                            1: controller.invoiceDetailModel.value.vatRate
-                                    .toString() +
-                                AppStr.percentSpace.tr
-                          }.entries.first)
-                  .value),
-        ),
-        if (controller.invoiceDetailModel.value.checkDiscount) ...[
-          _rowCustomer(
-            AppStr.invoiceCreationTaxDeduction.tr,
-            convertDoubleToStringSmart(
-                controller.invoiceDetailModel.value.discountVatRate),
-            isBold: notVAT,
-          ),
-          _rowCustomer(
-            AppStr.totalTaxDeduction.tr,
-            CurrencyUtils.formatCurrency(
-                controller.invoiceDetailModel.value.totalDiscount),
-            isBold: notVAT,
-          ),
-        ],
         _rowCustomer(
-          notVAT
-              ? AppStr.invoiceUpdateTotalAmountTitle.tr.toUpperCase()
-              : AppStr.totalPreTaxMoney.tr,
+          AppStr.totalPreTaxMoney.tr,
           CurrencyUtils.formatCurrency(
               controller.invoiceDetailModel.value.total),
-          isBold: notVAT,
         ),
-        if (!notVAT) ...[
-          _rowCustomer(
-              AppStr.invoiceCreationVAT.tr,
-              CurrencyUtils.formatCurrency(
-                  controller.invoiceDetailModel.value.vatAmount.toInt())),
-          _rowCustomer(
-            AppStr.invoiceCreationAmountMoney.tr,
+        _rowCustomer(
+            AppStr.invoiceCreationVAT.tr,
             CurrencyUtils.formatCurrency(
-                controller.invoiceDetailModel.value.amount.toInt()),
-          ),
-        ],
+                controller.invoiceDetailModel.value.vatAmount.toInt())),
+        _rowCustomer(
+          AppStr.invoiceCreationAmountMoney.tr,
+          CurrencyUtils.formatCurrency(
+              controller.invoiceDetailModel.value.amount.toInt()),
+        ),
         const SizedBox(
           height: 8,
         )
@@ -517,6 +400,3 @@ Widget _buildFooter(InvoiceDetailController controller) {
     ),
   );
 }
-
-
-

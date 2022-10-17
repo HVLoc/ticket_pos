@@ -6,10 +6,6 @@ Widget listProduct(InvoiceCreationController controller) {
       horizontal: AppDimens.paddingSmall,
     ),
     children: [
-      _buildAccountIssue(controller),
-      BaseWidget.sizedBox10,
-      _buildSelectPattern(controller),
-      BaseWidget.sizedBox10,
       _buildInfoBuyer(controller),
       BaseWidget.sizedBox10,
       _buildPaymentMethods(controller),
@@ -38,8 +34,6 @@ Widget _buildAccountIssue(InvoiceCreationController controller) {
             ),
           ],
         ),
-        _buildInputEmail(controller),
-        _buildInputPassword(controller),
       ],
     ).paddingOnly(
       top: AppDimens.defaultPadding,
@@ -70,7 +64,7 @@ Widget _buildPaymentMethods(InvoiceCreationController controller) {
           },
           onSelected: (String selection) {
             KeyBoard.hide();
-            controller.invoiceModel.value.paymentMethod = selection;
+
             controller.fieldTextEditingController.text = selection;
           },
           displayStringForOption: (option) => option,
@@ -96,40 +90,6 @@ Widget _buildPaymentMethods(InvoiceCreationController controller) {
         BaseWidget.buildDivider(height: 1),
       ],
     ).paddingAll(AppDimens.defaultPadding),
-  );
-}
-
-Widget _buildSelectPattern(InvoiceCreationController controller) {
-  return BaseWidget.buildCardBase(
-    GestureDetector(
-      onTap: () {
-        controller.selectPattern();
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AutoSizeText(
-            AppStr.filterSelectPattern + ":",
-            style: Get.textTheme.bodyText1,
-          ),
-          const Spacer(),
-          Obx(
-            () => Expanded(
-              child: Center(
-                child: AutoSizeText(
-                  controller.invoiceModel.value.serialNo != null
-                      ? '${controller.invoiceModel.value.invoicePattern}\n${controller.invoiceModel.value.serialNo}'
-                      : AppStr.filterSelectSerialPattern.tr,
-                  style: Get.textTheme.bodyText1!.copyWith(
-                    color: AppColors.linkText(),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ).paddingAll(AppDimens.paddingSmall),
-    ),
   );
 }
 
@@ -213,51 +173,6 @@ Widget _buildInfoBuyer(InvoiceCreationController controller) {
             maxLength: 100),
       ],
     ).paddingAll(AppDimens.paddingSmall),
-  );
-}
-
-Widget _buildInputEmail(InvoiceCreationController controller) {
-  return BuildInputTextWithLabel(
-    label: AppStr.account.tr,
-    buildInputText: BuildInputText(
-      InputTextModel(
-        iconLeading: Icons.person,
-        hintText: AppStr.account.tr,
-        controller: controller.userNameController,
-        isReadOnly: controller.isShowLoading.value,
-        currentNode: controller.emailFocus,
-        nextNode: controller.passwordFocus,
-        validator: (value) {
-          if (value.isStringEmpty) {
-            return AppStr.errorUserName.tr;
-          }
-          return null;
-        },
-      ),
-    ),
-  );
-}
-
-Widget _buildInputPassword(InvoiceCreationController controller) {
-  return BuildInputTextWithLabel(
-    label: AppStr.password.tr,
-    buildInputText: BuildInputText(
-      InputTextModel(
-        iconLeading: Icons.vpn_key,
-        hintText: AppStr.password.tr,
-        controller: controller.passwordController,
-        currentNode: controller.passwordFocus,
-        iconNextTextInputAction: TextInputAction.next,
-        isReadOnly: controller.isShowLoading.value,
-        obscureText: true,
-        validator: (value) {
-          if (value != null && (value.length < 8 || value.length > 50)) {
-            return AppStr.errorPassword.tr;
-          }
-          return null;
-        },
-      ),
-    ),
   );
 }
 

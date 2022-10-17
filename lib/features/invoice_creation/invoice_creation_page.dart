@@ -40,20 +40,7 @@ class InvoiceCreationPage extends BaseGetWidget<InvoiceCreationController> {
                 ),
                 centerTitle: true,
                 actions: [
-                  // TextButton(
-                  //   onPressed: controller.isCreateOrEditInvoice()
-                  //       ? controller.showDateTimePicker
-                  //       : null,
-                  //   child: Obx(() => Text(
-                  //         convertDateToString(
-                  //             controller.dateTime.value, PATTERN_1),
-                  //         style: Get.textTheme.subtitle1!.copyWith(
-                  //             color: controller.isCreateOrEditInvoice()
-                  //                 ? AppColors.linkText()
-                  //                 : AppColors.hintTextColor(),
-                  //             fontWeight: FontWeight.bold),
-                  //       )),
-                  // )
+                  
                 ],
               ),
               body: buildLoadingOverlay(
@@ -62,12 +49,7 @@ class InvoiceCreationPage extends BaseGetWidget<InvoiceCreationController> {
                     Expanded(
                       child: listProduct(controller),
                     ),
-                    // Obx(
-                    //   () => Visibility(
-                    //     visible: controller.isVisibleBtn.value,
-                    //     child: buildBtn(controller),
-                    //   ),
-                    // ),
+                 
                   ],
                 ),
               ),

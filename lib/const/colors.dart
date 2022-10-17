@@ -14,7 +14,7 @@ class AppColors {
       isDark ? darkAccentColor : lightAccentColor;
 
   // Những biến sử dụng trong app phải đảm bảo màu cho 2 giao diện sáng/tối
-  static bool _isDarkMode() => true;
+  static bool _isDarkMode() => false;
 
   static Color textColor() => _isDarkMode() ? Colors.white : Colors.black;
   static Color textHomeColor() =>

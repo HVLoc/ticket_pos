@@ -34,46 +34,6 @@ Widget FilterPatternPage(
     });
   }
 
-  void _onSelectPattern(InvoicePattern item) {
-    Get.back(result: item);
-  }
-
-  Widget _buildListView(List<InvoicePattern> listPattern) {
-    return ListView.separated(
-      // ẩn bàn phím khi kéo list
-      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-      physics: const ClampingScrollPhysics(),
-      itemBuilder: (context, index) =>
-          // không dùng Ripple effect ở đây
-          ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildFilterSerialPattern(
-              listPattern[index].pattern,
-              listPattern[index].serial,
-            ),
-            Text(
-                (listPattern[index].invoiceType == 1) &&
-                        !isSaleInv(listPattern[index].pattern)
-                    ? " *"
-                    : "",
-                // 0: một VAT , 1: nhiều VAT
-                style: const TextStyle(color: Colors.red)),
-          ],
-        ),
-        onTap: () => _onSelectPattern(listPattern[index]),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          color: AppColors.hintTextColor(),
-        ),
-      ),
-      itemCount: listPattern.length,
-      separatorBuilder: (context, index) => const Divider(),
-    );
-  }
-
   return BaseWidget.baseBottomSheet(
     title: pattern != null
         ? AppStr.filterSelectSerialPattern
@@ -106,14 +66,6 @@ Widget FilterPatternPage(
                 TextSpan(text: "): ${AppStr.filterInvoiceTaxBill.tr}"),
               ]),
         ).paddingSymmetric(vertical: AppDimens.defaultPadding),
-        Expanded(
-          child: Obx(
-            () => _buildListView(_listPatternSearch.isNotEmpty ||
-                    _searchPatternController.text.isNotEmpty
-                ? _listPatternSearch
-                : _listPattern),
-          ),
-        ),
       ],
     ),
     isSecondDisplay: isFromFilterPage,

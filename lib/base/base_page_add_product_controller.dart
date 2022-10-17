@@ -44,8 +44,6 @@ abstract class BaseProductAddController extends BaseGetxController {
 
   AppController appController = Get.find<AppController>();
 
-  late bool isTaxBill;
-
   RxInt properties = 1.obs;
 
   RxBool isSale = false.obs;

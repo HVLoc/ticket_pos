@@ -5,6 +5,8 @@ import 'package:easy_invoice_qlhd/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../setup_realm/setup_realm.dart';
+
 class LoginController extends BaseGetxController {
   var taxCodeController = TextEditingController(text: '2313123132');
 
@@ -12,7 +14,7 @@ class LoginController extends BaseGetxController {
 
   var addressController = TextEditingController(text: "Địa chỉ mặc định");
 
-  var codeController = TextEditingController(text:'123456');
+  var codeController = TextEditingController(text: '123456');
 
   final formKey = GlobalKey<FormState>();
 
@@ -22,7 +24,7 @@ class LoginController extends BaseGetxController {
 
   @override
   void onInit() {
-    taxCodeController.text = HIVE_APP.get(AppConst.keyTaxCodeCompany);
+    taxCodeController.text = HIVE_APP.get(AppConst.keyTaxCodeCompany) ?? '12131231';
     super.onInit();
   }
 
@@ -36,8 +38,11 @@ class LoginController extends BaseGetxController {
           HIVE_APP.put(AppConst.keyTaxCodeCompany, taxCodeController.text);
           HIVE_APP.put(AppConst.keyAddress, addressController.text);
           HIVE_APP.put(AppConst.keyComName, userNameController.text);
+          HIVE_APP.put(AppConst.keyCodeYear, codeController.text);
+          Get.to(() => SetupRealmPage());
         }
       } catch (e) {
+      } finally {
         hideLoading();
       }
     }
